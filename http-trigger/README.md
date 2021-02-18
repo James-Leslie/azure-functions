@@ -84,3 +84,75 @@ Open up the Azure panel in VS Code and find your deployed function. When you rig
 ![Function URL](https://github.com/James-Leslie/azure-functions/blob/main/images/1.11_function-url.png?raw=true)
 
 If you copy this and paste it into your browser's address bar, you will see the same response as before, but now this response is being sent to us from our live Azure serverless function!
+
+## 2. Modify the starter template to access Azure Key Vault
+
+### 2.1. Add key(s) to local environment
+The file `local.settings.json` can be used to store our keys for local testing. We do not need to use any special Azure Key Vault Python packages.
+
+Modify this file with some dummy keys. Below, I have called the keys "UsernameFromKeyVault" and "PasswordFromKeyVault".
+
+```python
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "",
+    "FUNCTIONS_WORKER_RUNTIME": "python",
+    "UsernameFromKeyVault": "James",
+    "PasswordFromKeyVault": "P@55word"
+  }
+}
+```
+
+These values will be accessible in the Python code by using the `os.getenv()` function.
+
+### 2.2. Modify `__init__.py` to retrieve keys from vault
+Let's replace the starter template code with our own:
+
+```python
+import logging
+import os
+
+import azure.functions as func
+
+# access sensitive credentials from Azure Key Vault
+user_name = os.getenv('UsernameFromKeyVault')
+password = os.getenv('PasswordFromKeyVault')
+
+
+def main(req: func.HttpRequest) -> func.HttpResponse:
+    logging.info('Python HTTP trigger function processed a request.')
+
+    return func.HttpResponse(
+        # reference credentials in function call
+        f'Hello {user_name}, your password is {password}.',
+        status_code=200
+    )
+```
+
+If you save this file and test locally (`F5`), you will see a new message returned from the function. The key values have been retrieved from the local environment and used in the function return.
+
+### 2.3. Add keys to Azure Key Vault
+
+#### 2.3.1. Enable Function App System Identity
+In the Azure portal, go to your Function App. Under **Settings -> Identity** set the status to "On":
+
+![App identity](https://github.com/James-Leslie/azure-functions/blob/main/images/2.1_app-identity.png?raw=true)
+
+#### 2.3.2. Create a key vault and add the credentials
+Create a new Key Vault in your resource group. In the **Access** section of creating the vault, add your app's service principal.
+
+![Add access policy](https://github.com/James-Leslie/azure-functions/blob/main/images/2.2_add-access-policy.png?raw=true)
+
+Search for the name of your function app in the panel on the right.
+
+![Select principal](https://github.com/James-Leslie/azure-functions/blob/main/images/2.3_select-principal.png?raw=true)
+
+Confirm that your list of current access policies for the key vault looks like the list below before creating the vault.
+
+![Current policies](https://github.com/James-Leslie/azure-functions/blob/main/images/2.4_current-access-policies.png?raw=true)
+
+Finally, add your desired secrets to the vault.
+
+#### 2.4.2. Add vault secrets to app configuration
+
