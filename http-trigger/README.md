@@ -68,3 +68,19 @@ Which should then return the following:
 ![Run local with name](https://github.com/James-Leslie/azure-functions/blob/main/images/1.9_run-local-with-name.png?raw=true)
 
 ### 1.3. Deploy function to Azure Function App
+The function is now ready to be deployed to our existing Azure Function App.
+
+In the explorer pane, right-click on the project folder and click on the option "Deploy to Function App..."
+
+![Deploy](https://github.com/James-Leslie/azure-functions/blob/main/images/1.10_deploy.png?raw=true)
+
+Select your subscription and the created Function App when prompted to do so.
+
+### 1.4. Trigger the deployed function
+The final step is to test that the deployed function works when we call it. We can call the Azure function from our browser in the same way as before, but using the deployed function's URL.
+
+Open up the Azure panel in VS Code and find your deployed function. When you right-click on it, you will see the option to "copy function URL". 
+
+![Function URL](https://github.com/James-Leslie/azure-functions/blob/main/images/1.11_function-url.png?raw=true)
+
+If you copy this and paste it into your browser's address bar, you will see the same response as before, but now this response is being sent to us from our live Azure serverless function!
