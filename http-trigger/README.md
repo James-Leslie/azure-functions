@@ -140,19 +140,21 @@ In the Azure portal, go to your Function App. Under **Settings -> Identity** set
 ![App identity](https://github.com/James-Leslie/azure-functions/blob/main/images/2.1_app-identity.png?raw=true)
 
 #### 2.3.2. Create a key vault and add the credentials
-Create a new Key Vault in your resource group. In the **Access** section of creating the vault, add your app's service principal.
+Create a new Key Vault in your resource group. In the **Access policy** section of creating the vault, click on the text that says "+ Add Access Policy".
 
 ![Add access policy](https://github.com/James-Leslie/azure-functions/blob/main/images/2.2_add-access-policy.png?raw=true)
 
-Search for the name of your function app in the panel on the right.
+Click the dropdown box to **Configure from template** and choose "Secret Management". Then click on the text that says "None selected" and search for the name of your function app in the panel on the right to provide it with access to the vault.
 
-![Select principal](https://github.com/James-Leslie/azure-functions/blob/main/images/2.3_select-principal.png?raw=true)
+![Access policy settings](https://github.com/James-Leslie/azure-functions/blob/main/images/2.3_access-policy-settings.png?raw=true)
 
-Confirm that your list of current access policies for the key vault looks like the list below before creating the vault.
+![Select principal](https://github.com/James-Leslie/azure-functions/blob/main/images/2.4_select-principal.png?raw=true)
 
-![Current policies](https://github.com/James-Leslie/azure-functions/blob/main/images/2.4_current-access-policies.png?raw=true)
+Click on "Add" and then confirm that your list of current access policies for the key vault looks like the list below before creating the vault.
 
-Finally, add your desired secrets to the vault.
+![Current policies](https://github.com/James-Leslie/azure-functions/blob/main/images/2.5_current-access-policies.png?raw=true)
+
+Finally, add your desired secrets to the vault. While the _values_ of these secrets do not need to be the same, their names need to be exactly the same as the ones you added to your `local.settings.json` file. In this example, we named them **UsernameFromKeyVault** and **PasswordFromKeyVault**. To illustrate the point, I have also changed the secret value of the password stored in the vault.
 
 #### 2.4.2. Add vault secrets to app configuration
 
