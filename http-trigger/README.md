@@ -99,7 +99,7 @@ Modify this file with some dummy keys. Below, I have called the keys "UsernameFr
     "AzureWebJobsStorage": "",
     "FUNCTIONS_WORKER_RUNTIME": "python",
     "UsernameFromKeyVault": "James",
-    "PasswordFromKeyVault": "P@55word"
+    "PasswordFromKeyVault": "Pwd"
   }
 }
 ```
@@ -132,6 +132,8 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
 If you save this file and test locally (`F5`), you will see a new message returned from the function. The key values have been retrieved from the local environment and used in the function return.
 
+![Debug function](https://github.com/James-Leslie/azure-functions/blob/main/images/2.7_debug-function.png?raw=true)
+
 ### 2.3. Add keys to Azure Key Vault
 
 #### 2.3.1. Enable Function App System Identity
@@ -156,5 +158,13 @@ Click on "Add" and then confirm that your list of current access policies for th
 
 Finally, add your desired secrets to the vault. While the _values_ of these secrets do not need to be the same, their names need to be exactly the same as the ones you added to your `local.settings.json` file. In this example, we named them **UsernameFromKeyVault** and **PasswordFromKeyVault**. To illustrate the point, I have also changed the secret value of the password stored in the vault.
 
-#### 2.4.2. Add vault secrets to app configuration
+#### 2.3.3. Add vault secrets to app configuration
+Now, the final step is to add these secrets to the function app. You will want to keep the vault open in a tab of your browser while you open a new tab with the function app configuration settings.
 
+Click on the button to create a new application setting:
+
+![App configuration](https://github.com/James-Leslie/azure-functions/blob/main/images/2.6_app-configuration.png?raw=true)
+
+In your other tab, open the information of the username secret and click on the enabled version to see its details. There is a field here called **Secret Identifier**, copy its value and head back to the other tab.
+
+![Secret identifier](https://github.com/James-Leslie/azure-functions/blob/main/images/2.8_secret-identifier.png?raw=true)
