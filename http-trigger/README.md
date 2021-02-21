@@ -168,3 +168,18 @@ Click on the button to create a new application setting:
 In your other tab, open the information of the username secret and click on the enabled version to see its details. There is a field here called **Secret Identifier**, copy its value and head back to the other tab.
 
 ![Secret identifier](https://github.com/James-Leslie/azure-functions/blob/main/images/2.8_secret-identifier.png?raw=true)
+
+Now, paste this value into the **Value** field of the new application setting and then add some additional text in the following format:
+```
+@Microsoft.KeyVault(SecretUri=<copied-value-from-clipboard>)
+```
+
+![Add app setting](https://github.com/James-Leslie/azure-functions/blob/main/images/2.9_add-app-setting.png?raw=true)
+
+Do this for both the UsernameFromKeyVault and PasswordFromKeyVault secrets and you should see both appear with green checkmarks in your list of application settings.
+
+![App configuration list](https://github.com/James-Leslie/azure-functions/blob/main/images/2.10_app-configuration-list.png?raw=true)
+
+At this stage, you are all set to deploy the function and execute it using its URL (repeat steps 1.3. and 1.4.). Once you have copied the function URL into your browser, you should see the same message as before, but with whatever secret values you used in your key vault.
+
+![Trigger function with key vault](https://github.com/James-Leslie/azure-functions/blob/main/images/2.11_execute-function-from-url.png?raw=true)
